@@ -1,0 +1,17 @@
+penalty_parameters:
+  low: 
+    alpha: 2
+    beta: 1
+    k: 1
+  medium: 
+    alpha: 2
+    beta: 2
+    k: 2
+  high: 
+    alpha: 3
+    beta: 3
+    k: 3
+  full: 
+    alpha: 3
+    beta: 3
+    k: 3

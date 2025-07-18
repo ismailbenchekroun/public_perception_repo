@@ -1,0 +1,5 @@
+models
+data/outputs
+.snakemake
+gurobi.log
+.DS_Store
