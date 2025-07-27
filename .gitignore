@@ -3,3 +3,4 @@ data/outputs
 .snakemake
 gurobi.log
 .DS_Store
+test_notebook_yassine.ipynb

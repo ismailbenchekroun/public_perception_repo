@@ -1,17 +1,14 @@
 penalty_parameters:
   low: 
-    alpha: 2
-    beta: 1
-    k: 1
+    alpha: 0.2
+    beta: 0.2
+    k: 3.034
   medium: 
-    alpha: 2
-    beta: 2
-    k: 2
+    alpha: 0.6
+    beta: 0.6
+    k: 1.431
   high: 
-    alpha: 3
-    beta: 3
-    k: 3
-  full: 
-    alpha: 3
-    beta: 3
-    k: 3
+    alpha: 1
+    beta: 1
+    k: 1.156
+  

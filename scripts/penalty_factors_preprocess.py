@@ -1,30 +1,43 @@
 import pandas as pd
 import numpy as np
 
-# User-defined parameters for this scenario
 DEFAULT_PENALTY = 1.0
-
 penalty_params = snakemake.params.penalty_params
-# Load opposition data
-df = pd.read_csv(snakemake.input[0], index_col=["nodes", "techs"])  # must contain techs, nodes, O_1, O_2
 
-# Function to compute omega
+# Load opposition data (must have: nodes, techs, O_1, O_2)
+df = pd.read_csv(snakemake.input[0])
+
 def compute_omega(row, k, alpha, beta):
-    O_1 = row['O_1']
-    O_2 = row['O_2']
+    O_1, O_2 = row['O_1'], row['O_2']
     if not pd.isna(O_1) and not pd.isna(O_2):
-        return k * (1 - np.exp(-alpha * (1 - O_1/100)) * np.exp(-beta * (1 - O_2/100)))
+        return k * (1 - np.exp(-alpha * (1 - O_1 / 100)) * np.exp(-beta * (1 - O_2 / 100)))
     elif not pd.isna(O_1):
-        return k * (1 - np.exp(-alpha * (1 - O_1/100)))
+        return k * (1 - np.exp(-alpha * (1 - O_1 / 100)))
     elif not pd.isna(O_2):
-        return k * (1 - np.exp(-beta * (1 - O_2/100)))
+        return k * (1 - np.exp(-beta * (1 - O_2 / 100)))
     else:
         return DEFAULT_PENALTY
 
-# Apply the function
-new_df = pd.DataFrame(DEFAULT_PENALTY, index=df.index, columns=penalty_params.keys())
-for penalty_scenario, params in penalty_params.items():
-    new_df[penalty_scenario] = df.apply(compute_omega, k=params["k"], alpha=params["alpha"], beta=params["beta"], axis=1)
+# Calculate omega for each scenario and store in new_df
+penalty_values = {}
+for scenario_name, params in penalty_params.items():
+    penalty_values[scenario_name] = df.apply(
+        compute_omega, axis=1,
+        k=params["k"], alpha=params["alpha"], beta=params["beta"]
+    )
 
-# Save the result
-new_df.to_csv(snakemake.output[0])
+new_df = pd.concat([df[['techs', 'nodes']], pd.DataFrame(penalty_values)], axis=1)
+
+# Select scenario from config
+try:
+    scenario = snakemake.config["scenario"]
+except (AttributeError, KeyError):
+    scenario = "medium"
+
+# Build long format
+df_long = new_df[['techs', 'nodes', scenario]].rename(columns={scenario: 'value'})
+df_long['parameters'] = 'cost_energy_cap'
+
+# Write output
+df_long.to_csv(snakemake.output[0], index=False)
+print(f"✅ Penalty factors written for scenario: {scenario} → {snakemake.output[0]}")
