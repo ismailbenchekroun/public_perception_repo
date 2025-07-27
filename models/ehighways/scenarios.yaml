@@ -1,0 +1,192 @@
+overrides:
+  penalty_factors:
+    data_tables:
+      penalties:
+        data: ../../data/outputs/penalty_factors_computed.csv
+        rows: [techs, nodes]
+        columns: [parameters]
+
+  only_gbr:
+    nodes:
+      ALB_1:
+        active: false
+      AUT_1:
+        active: false
+      AUT_2:
+        active: false
+      AUT_3:
+        active: false
+      BEL_1:
+        active: false
+      BGR_1:
+        active: false
+      BIH_1:
+        active: false
+      CHE_1:
+        active: false
+      CHE_2:
+        active: false
+      CYP_1:
+        active: false
+      CZE_1:
+        active: false
+      CZE_2:
+        active: false
+      DEU_1:
+        active: false
+      DEU_2:
+        active: false
+      DEU_3:
+        active: false
+      DEU_4:
+        active: false
+      DEU_5:
+        active: false
+      DEU_6:
+        active: false
+      DEU_7:
+        active: false
+      DNK_1:
+        active: false
+      DNK_2:
+        active: false
+      ESP_1:
+        active: false
+      ESP_2:
+        active: false
+      ESP_3:
+        active: false
+      ESP_4:
+        active: false
+      ESP_5:
+        active: false
+      ESP_6:
+        active: false
+      ESP_7:
+        active: false
+      ESP_8:
+        active: false
+      ESP_9:
+        active: false
+      ESP_10:
+        active: false
+      ESP_11:
+        active: false
+      EST_1:
+        active: false
+      FIN_1:
+        active: false
+      FIN_2:
+        active: false
+      FRA_1:
+        active: false
+      FRA_2:
+        active: false
+      FRA_3:
+        active: false
+      FRA_4:
+        active: false
+      FRA_5:
+        active: false
+      FRA_6:
+        active: false
+      FRA_7:
+        active: false
+      FRA_8:
+        active: false
+      FRA_9:
+        active: false
+      FRA_10:
+        active: false
+      FRA_11:
+        active: false
+      FRA_12:
+        active: false
+      FRA_13:
+        active: false
+      FRA_14:
+        active: false
+      FRA_15:
+        active: false
+      GRC_1:
+        active: false
+      GRC_2:
+        active: false
+      HRV_1:
+        active: false
+      HUN_1:
+        active: false
+      IRL_1:
+        active: false
+      ITA_1:
+        active: false
+      ITA_2:
+        active: false
+      ITA_3:
+        active: false
+      ITA_4:
+        active: false
+      ITA_5:
+        active: false
+      ITA_6:
+        active: false
+      LTU_1:
+        active: false
+      LUX_1:
+        active: false
+      LVA_1:
+        active: false
+      MKD_1:
+        active: false
+      MNE_1:
+        active: false
+      NLD_1:
+        active: false
+      NOR_1:
+        active: false
+      NOR_2:
+        active: false
+      NOR_3:
+        active: false
+      NOR_4:
+        active: false
+      NOR_5:
+        active: false
+      NOR_6:
+        active: false
+      NOR_7:
+        active: false
+      POL_1:
+        active: false
+      POL_2:
+        active: false
+      POL_3:
+        active: false
+      POL_4:
+        active: false
+      POL_5:
+        active: false
+      PRT_1:
+        active: false
+      PRT_2:
+        active: false
+      ROU_1:
+        active: false
+      ROU_2:
+        active: false
+      ROU_3:
+        active: false
+      SRB_1:
+        active: false
+      SVK_1:
+        active: false
+      SVN_1:
+        active: false
+      SWE_1:
+        active: false
+      SWE_2:
+        active: false
+      SWE_3:
+        active: false
+      SWE_4:
+        active: false

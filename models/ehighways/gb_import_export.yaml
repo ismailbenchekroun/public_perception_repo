@@ -1,0 +1,59 @@
+overrides:
+  add_uk_import_export:
+    techs:
+      import_electricity:
+        name: "Electricity import"
+        base_tech: supply
+        carrier_out: electricity
+      export_electricity:
+        name: "Electricity export"
+        base_tech: demand
+        carrier_in: electricity
+  
+  data_tables:
+    import_export_price:
+      data: ../../data/outputs/interconnector_prices_formatted.csv
+      index: [timesteps, techs, parameters]
+      values: value
+      add_dims:
+        costs: monetary
+
+
+    nodes:
+      GBR_1:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.4202   # BEL(0.1403) + FRA(0.0838) + NLD(0.1961)
+          export_electricity:
+            flow_cap_max: 0.4202
+      GBR_2:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.0838   # FRA share
+          export_electricity:
+            flow_cap_max: 0.0838
+      GBR_3:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.4839   # IRL share
+          export_electricity:
+            flow_cap_max: 0.4839
+      GBR_4:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.2152   # DEU(0.0941) + DNK(0.1211)
+          export_electricity:
+            flow_cap_max: 0.2152
+      GBR_5:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.0657   # NOR
+          export_electricity:
+            flow_cap_max: 0.0657
+      GBR_6:
+        techs:
+          import_electricity:
+            flow_cap_max: 0.4839   # IRL share
+          export_electricity:
+            flow_cap_max: 0.4839
+
