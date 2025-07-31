@@ -33,6 +33,17 @@ rule run_gbr_model_with_penalty:
     shell:
         "calliope run {input.model_yaml} --scenario only_gbr,penalty_factors --save_netcdf {output.nc_file}"
 
+rule run_gbr_model_with_imports:
+    message: "Run GBR model with imports (no penalties)."
+    input:
+        model_yaml = "models/ehighways/model.yaml"
+    output:
+        nc_file = "results/model_gbr_imports.nc"
+    conda: "environment.yaml"
+    shell:
+        "calliope run {input.model_yaml} --scenario only_gbr,add_uk_import_export --save_netcdf {output.nc_file}"
+
+
 rule run_gbr_model_with_penalty_and_imports:
     message: "Run GBR model with penalty factors and imports."
     input:
@@ -61,6 +72,35 @@ rule visualise_gbr_model_with_penalty:
     conda: "environment.yaml"
     shell:
         "calligraph {input.nc_file}"
+
+rule visualise_gbr_model_with_imports:
+    message: "Launch Calliope's visualisation tool for GBR model with imports (no penalties)."
+    input:
+        nc_file = rules.run_gbr_model_with_imports.output.nc_file
+    conda: "environment.yaml"
+    shell:
+        "calligraph {input.nc_file}"
+
+rule plot_imports_exports:
+    message: "Plotting imports and exports from model results."
+    input:
+        nc_file="results/model_gbr_imports.nc"
+    output:
+        png="results/imports_exports_plot.png"
+    conda: "environment.yaml"
+    shell:
+        "python scripts/plot_imports_exports_v1.py {input.nc_file} {output.png}"
+
+rule explore_results_manually:
+    message: "Plotting imports and exports from model results."
+    input:
+        nc_file="results/model_gbr_imports.nc"
+    output:
+        plot="results/imports_exports_plot.png"
+    conda: "environment.yaml"
+    shell:
+        "python scripts/explore_results_manually.py {input.nc_file} {output.plot}"
+
 
 # ---------------------- Data Preprocessing ----------------------
 

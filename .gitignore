@@ -1,5 +1,5 @@
 models
-data/outputs
+data/inputs
 .snakemake
 gurobi.log
 .DS_Store

@@ -16,6 +16,7 @@ dependencies:
   - pyomo=6.8.2
   - pip=25.1.1
   - snakemake
+  - matplotlib
   - pip: 
       - git+https://github.com/calliope-project/calligraph.git@v0.1.1.dev6
       

@@ -25,9 +25,7 @@ for scenario_name, params in penalty_params.items():
         compute_omega, axis=1,
         k=params["k"], alpha=params["alpha"], beta=params["beta"]
     )
-
 new_df = pd.concat([df[['techs', 'nodes']], pd.DataFrame(penalty_values)], axis=1)
-
 # Select scenario from config
 try:
     scenario = snakemake.config["scenario"]

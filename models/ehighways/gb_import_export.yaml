@@ -9,51 +9,64 @@ overrides:
         name: "Electricity export"
         base_tech: demand
         carrier_in: electricity
-  
-  data_tables:
-    import_export_price:
-      data: ../../data/outputs/interconnector_prices_formatted.csv
-      index: [timesteps, techs, parameters]
-      values: value
-      add_dims:
-        costs: monetary
 
+    data_tables:
+      import_export_price:
+        data: ../../data/outputs/interconnector_prices_formatted.csv
+        rows: [timesteps, techs]
+        columns: [parameters]
+        add_dims:
+          costs: monetary
+    
 
     nodes:
       GBR_1:
         techs:
           import_electricity:
-            flow_cap_max: 0.4202   # BEL(0.1403) + FRA(0.0838) + NLD(0.1961)
+            flow_cap_max: 0.5562   # BEL + FRA(75%) + NLD + DEU
+            flow_cap_min: 0.5562
           export_electricity:
-            flow_cap_max: 0.4202
+            flow_cap_max: 0.5562
+            flow_cap_min: 0.5562
       GBR_2:
         techs:
           import_electricity:
-            flow_cap_max: 0.0838   # FRA share
+            flow_cap_max: 0.0419   # FRA(25%)
+            flow_cap_min: 0.0419
           export_electricity:
-            flow_cap_max: 0.0838
+            flow_cap_max: 0.0419
+            flow_cap_min: 0.0419
       GBR_3:
         techs:
           import_electricity:
-            flow_cap_max: 0.4839   # IRL share
+            flow_cap_max: 0.4437   # IRL(1/3) + DNK
+            flow_cap_min: 0.4437
           export_electricity:
-            flow_cap_max: 0.4839
+            flow_cap_max: 0.4437
+            flow_cap_min: 0.4437
       GBR_4:
         techs:
           import_electricity:
-            flow_cap_max: 0.2152   # DEU(0.0941) + DNK(0.1211)
+            flow_cap_max: 0.3883   # IRL(1/3) + NOR
+            flow_cap_min: 0.3883
           export_electricity:
-            flow_cap_max: 0.2152
+            flow_cap_max: 0.3883
+            flow_cap_min: 0.3883
       GBR_5:
         techs:
           import_electricity:
-            flow_cap_max: 0.0657   # NOR
+            flow_cap_max: 0.0      # No direct links assigned
+            flow_cap_min: 0.0
           export_electricity:
-            flow_cap_max: 0.0657
+            flow_cap_max: 0.0
+            flow_cap_min: 0.0
       GBR_6:
         techs:
           import_electricity:
-            flow_cap_max: 0.4839   # IRL share
+            flow_cap_max: 0.3226   # IRL(1/3)
+            flow_cap_min: 0.3226
           export_electricity:
-            flow_cap_max: 0.4839
+            flow_cap_max: 0.3226
+            flow_cap_min: 0.3226
 
+    

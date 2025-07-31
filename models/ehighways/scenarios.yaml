@@ -3,8 +3,10 @@ overrides:
     data_tables:
       penalties:
         data: ../../data/outputs/penalty_factors_computed.csv
-        rows: [techs, nodes]
-        columns: [parameters]
+        index: [techs, nodes, parameters]
+        values: value
+        add_dims:
+          costs: monetary
 
   only_gbr:
     nodes:
