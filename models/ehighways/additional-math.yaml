@@ -1,0 +1,18 @@
+constraints:
+  net_annual_exporter:
+    description: Force max 5% annual average imports
+    where: import_limit = net_exporter
+    equations:
+      - expression: >-
+          sum(flow_out[techs=import_electricity], over=[nodes, carriers, timesteps]) <=
+          sum(flow_in[techs=export_electricity], over=[nodes, carriers, timesteps]) * 0.95
+  max_annual_share:
+    description: Force max 5% share of generation in the year to be from net imports
+    where: import_limit = max_share
+    equations:
+      - expression: >-
+          sum(flow_out[techs=import_electricity] - flow_in[techs=export_electricity], over=[techs, nodes, carriers, timesteps]) <=
+          sum(flow_out[techs=$generators], over=[techs, nodes, carriers, timesteps]) * 0.05
+    slices:
+      generators:
+        - expression: "[electrified_biofuel, historic_electrified_heat, hydro_reservoir, hydro_run_of_river, nuclear, open_field_pv, roof_mounted_pv, wind_offshore, wind_onshore_competing, wind_onshore_monopoly]"
