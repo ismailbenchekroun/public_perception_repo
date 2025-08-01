@@ -1,6 +1,11 @@
 models
-data/inputs
+!models/ehighways/scenarios.yaml
+!models/ehighways/gb_import_export.yaml
+!models/ehighways/model.yaml
+!models/ehighways/additional-math.yaml
+data/outputs
 .snakemake
 gurobi.log
 .DS_Store
-test_notebook_yassine.ipynb
+*.ipynb
+results

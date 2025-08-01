@@ -2,10 +2,13 @@ configfile: "config/default.yaml"
 
 # ---------------------- Model Runs ----------------------
 
+wildcard_constraints:
+    penalty_scenario = "low|medium|high"
+
 rule run_eu_model:
     message: "Run the full Calliope base model."
     input:
-        model_yaml = "ehighways/model.yaml"
+        model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_eu.nc"
     conda: "environment.yaml"
@@ -15,7 +18,7 @@ rule run_eu_model:
 rule run_gbr_model:
     message: "Run Calliope model using GBR-only scenario."
     input:
-        model_yaml = "../../ehighways/model.yaml"
+        model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_gbr_only.nc"
     conda: "environment.yaml"
@@ -23,15 +26,15 @@ rule run_gbr_model:
         "calliope run {input.model_yaml} --scenario only_gbr --save_netcdf {output.nc_file}"
 
 rule run_gbr_model_with_penalty:
-    message: "Run GBR model with penalty factors (uses the penalty_factors override)."
+    message: "Run GBR model with penalty factors with {wildcards.penalty_scenario} weighting (uses the penalty_factors override)."
     input:
-        model_yaml = "../../ehighways/model.yaml",
-        penalty_csv = "../../data/outputs/penalty_factors_computed.csv"
+        model_yaml = "models/ehighways/model.yaml",
+        penalty_csv = "data/outputs/penalty_factors_computed.csv"
     output:
-        nc_file = "results/model_gbr_with_penalty.nc"
+        nc_file = "results/model_gbr_with_penalty_{penalty_scenario}.nc"
     conda: "environment.yaml"
     shell:
-        "calliope run {input.model_yaml} --scenario only_gbr,penalty_factors --save_netcdf {output.nc_file}"
+        "calliope run {input.model_yaml} --scenario {wildcards.penalty_scenario} --save_netcdf {output.nc_file}"
 
 rule run_gbr_model_with_imports:
     message: "Run GBR model with imports (no penalties)."
@@ -45,15 +48,15 @@ rule run_gbr_model_with_imports:
 
 
 rule run_gbr_model_with_penalty_and_imports:
-    message: "Run GBR model with penalty factors and imports."
+    message: "Run GBR model with penalty factors with {wildcards.penalty_scenario} weighting and imports."
     input:
         model_yaml = "models/ehighways/model.yaml",
         penalty_csv = "data/outputs/penalty_factors_computed.csv"
     output:
-        nc_file = "results/model_gbr_penalty_imports.nc"
+        nc_file = "results/model_gbr_penalty_imports_{penalty_scenario}.nc"
     conda: "environment.yaml"
     shell:
-        "calliope run {input.model_yaml} --scenario only_gbr,penalty_factors,add_uk_import_export --save_netcdf {output.nc_file}"
+        "calliope run {input.model_yaml} --scenario {wilcards.penalty_scenario},add_uk_import_export --save_netcdf {output.nc_file}"
 
 # ---------------------- Supporting Rules ----------------------
 
@@ -105,7 +108,7 @@ rule explore_results_manually:
 # ---------------------- Data Preprocessing ----------------------
 
 rule compute_penalty_factors:
-    message: "Compute penalty factors (scenario chosen via --config scenario=low|medium|high)"
+    message: "Compute penalty factors for each scenario"
     input:
         "data/inputs/penalty_factors_input.csv"
     params:
@@ -128,3 +131,4 @@ rule all:
         "data/outputs/penalty_factors_computed.csv",
         "results/model_gbr_with_penalty.nc",
         "results/model_gbr_penalty_imports.nc"
+    default_target: True
