@@ -13,7 +13,9 @@ overrides:
       number: 10  # update to get more results
       scoring_algorithm: integer # this is the default. You may find that the "evolving_average" algorithm gives more interesting results
     parameters:
-      spores_slack: 0.5
+      # i.e. 10% above the cost optimal (including monetary and penalty costs)
+      # Can be updated as you like.
+      spores_slack: 0.1
       # uncomment the following and add technologies by name into "index" if you want them to be the only ones impacted by the SPORES scoring
       #spores_tracker:
       #  data: [true, true, true]
