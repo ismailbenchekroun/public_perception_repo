@@ -11,7 +11,7 @@ rule run_eu_model:
         model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_eu.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --save_netcdf {output.nc_file}"
 
@@ -21,7 +21,7 @@ rule run_gbr_model:
         model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_gbr_only.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario only_gbr --save_netcdf {output.nc_file}"
 
@@ -32,7 +32,7 @@ rule run_gbr_model_with_penalty:
         penalty_csv = "data/outputs/penalty_factors_computed.csv"
     output:
         nc_file = "results/model_gbr_with_penalty_{penalty_scenario}.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario {wildcards.penalty_scenario} --save_netcdf {output.nc_file}"
 
@@ -42,7 +42,7 @@ rule run_gbr_model_with_imports:
         model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_gbr_imports.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario only_gbr,add_uk_import_export --save_netcdf {output.nc_file}"
 
@@ -54,9 +54,9 @@ rule run_gbr_model_with_penalty_and_imports:
         penalty_csv = "data/outputs/penalty_factors_computed.csv"
     output:
         nc_file = "results/model_gbr_penalty_imports_{penalty_scenario}.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
-        "calliope run {input.model_yaml} --scenario {wilcards.penalty_scenario},add_uk_import_export --save_netcdf {output.nc_file}"
+        "calliope run {input.model_yaml} --scenario {wildcards.penalty_scenario},add_uk_import_export --save_netcdf {output.nc_file}"
 
 # ---------------------- Supporting Rules ----------------------
 
@@ -64,7 +64,7 @@ rule visualise_gbr_model:
     message: "Launch Calliope's visualisation tool for GBR-only model."
     input:
         nc_file = rules.run_gbr_model.output.nc_file
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calligraph {input.nc_file}"
 
@@ -72,7 +72,7 @@ rule visualise_gbr_model_with_penalty:
     message: "Launch Calliope's visualisation tool for GBR-only model with penalty factors."
     input:
         nc_file = rules.run_gbr_model_with_penalty.output.nc_file
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calligraph {input.nc_file}"
 
@@ -80,7 +80,7 @@ rule visualise_gbr_model_with_imports:
     message: "Launch Calliope's visualisation tool for GBR model with imports (no penalties)."
     input:
         nc_file = rules.run_gbr_model_with_imports.output.nc_file
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calligraph {input.nc_file}"
 
@@ -90,7 +90,6 @@ rule plot_imports_exports:
         nc_file="results/model_gbr_imports.nc"
     output:
         png="results/imports_exports_plot.png"
-    conda: "environment.yaml"
     shell:
         "python scripts/plot_imports_exports_v1.py {input.nc_file} {output.png}"
 
@@ -100,7 +99,6 @@ rule explore_results_manually:
         nc_file="results/model_gbr_imports.nc"
     output:
         plot="results/imports_exports_plot.png"
-    conda: "environment.yaml"
     shell:
         "python scripts/explore_results_manually.py {input.nc_file} {output.plot}"
 
@@ -129,6 +127,12 @@ rule convert_interconnector_prices:
 rule all:
     input:
         "data/outputs/penalty_factors_computed.csv",
-        "results/model_gbr_with_penalty.nc",
-        "results/model_gbr_penalty_imports.nc"
+        expand(
+            "results/model_gbr_with_penalty_{penalty_scenario}.nc",
+            penalty_scenario=["low", "medium", "high"]
+        ),
+        expand(
+            "results/model_gbr_penalty_imports_{penalty_scenario}.nc",
+            penalty_scenario=["low", "medium", "high"]
+        )
     default_target: True
