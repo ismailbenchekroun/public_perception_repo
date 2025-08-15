@@ -1,0 +1,24 @@
+techs,base_tech,name
+battery,storage,Battery storage
+demand_elec,demand,Electricity demand
+demand_heat_electrified,demand,Electrified heat demand
+electrified_biofuel,supply,Biofuel-derived electricity
+historic_electrified_heat,supply,Removes historic electrified heat demand from the electricity demand profile
+hydro_reservoir,supply,Hydro electricity with a reservoir.
+hydro_run_of_river,supply,Run of river hydro electricity
+hydrogen,storage,Hydrogen power storage
+link_GBR_1_GBR_2_ac_ohl,transmission,Overhead High voltage AC transmission line
+link_GBR_1_GBR_3_ac_ohl,transmission,Overhead High voltage AC transmission line
+link_GBR_2_GBR_3_ac_ohl,transmission,Overhead High voltage AC transmission line
+link_GBR_3_GBR_4_ac_ohl,transmission,Overhead High voltage AC transmission line
+link_GBR_3_GBR_5_dc_subsea,transmission,Subsea High voltage DC transmission line
+link_GBR_4_GBR_5_ac_ohl,transmission,Overhead High voltage AC transmission line
+link_GBR_4_GBR_5_dc_subsea,transmission,Subsea High voltage DC transmission line
+link_GBR_4_GBR_6_dc_subsea,transmission,Subsea High voltage DC transmission line
+nuclear,supply,Nuclear power
+open_field_pv,supply,Open field PV
+pumped_hydro,storage,Pumped hydro power storage
+roof_mounted_pv,supply,Roof mounted PV
+wind_offshore,supply,Offshore wind
+wind_onshore_competing,supply,Onshore wind competing with open field PV on land
+wind_onshore_monopoly,supply,Onshore wind without land competition

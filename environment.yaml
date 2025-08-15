@@ -1,5 +1,6 @@
 name: euro-calliope
 channels:
+  - conda-forge/label/calliope_dev
   - bioconda
   - conda-forge
   - gurobi
@@ -7,6 +8,15 @@ dependencies:
   - python=3.12
   - numpy=1.26.4
   - pandas=2.1.4
+  - xarray=2024.2.0
+  - netCDF4=1.6.5
+  - hdf5=1.14.2
+  - libnetcdf=4.9.2
   - gurobi=11.0.3
+  - calliope=0.7.0dev6
+  - pyomo=6.8.2
+  - pip=25.1.1
   - snakemake
   - matplotlib
+  - pip:
+      - git+https://github.com/calliope-project/calligraph.git@v0.1.1.dev6

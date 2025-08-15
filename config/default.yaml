@@ -1,14 +1,30 @@
-penalty_parameters:
-  low: 
-    alpha: 0.2
-    beta: 0.2
-    k: 3.034
-  medium: 
-    alpha: 0.6
-    beta: 0.6
-    k: 1.431
-  high: 
-    alpha: 1
-    beta: 1
-    k: 1.156
-  
+penalty_params:
+#   # Early-bite: swapped order so alpha increases with impact
+#   low:
+#     curve: early
+#     alpha: 0.608          # smallest bite for low scenario
+#     beta_over_alpha: 1.5
+#   medium:
+#     curve: early
+#     alpha: 0.752
+#     beta_over_alpha: 1.5
+#   high:
+#     curve: early
+#     alpha: 1.294          # largest bite for high scenario
+#     beta_over_alpha: 1.5
+
+#Late-bite: stronger bite by scaling alpha (and beta via beta_over_alpha)
+  low:
+    curve: late
+    alpha: 0.1        # was ~0.608
+    beta_over_alpha: 1.5
+  medium:
+    curve: late
+    alpha: 0.05         # was ~0.752
+    beta_over_alpha: 1.5
+  high:
+    curve: late
+    alpha: 0.02         # was ~1.294
+    beta_over_alpha: 1.5
+
+
