@@ -1,7 +1,7 @@
 scenarios:
-  low: [only_gbr,penalty_factors,select_low]
-  medium: [only_gbr,penalty_factors,select_medium]
-  high: [only_gbr,penalty_factors,select_high]
+  low: [only_gbr, penalty_factors, select_low]
+  medium: [only_gbr, penalty_factors, select_medium]
+  high: [only_gbr, penalty_factors, select_high]
 
 overrides:
   add_uk_import_export:
@@ -29,57 +29,61 @@ overrides:
       GBR_1:
         techs:
           import_electricity:
-            flow_cap_max: 0.5562   # BEL + FRA(75%) + NLD + DEU
-            flow_cap_min: 0.5562
+            flow_cap_max: 0.150   # BEL + FRA(75%) + NLD + DEU
+            flow_cap_min: 0.150
           export_electricity:
-            flow_cap_max: 0.5562
-            flow_cap_min: 0.5562
+            flow_cap_max: 0.150
+            flow_cap_min: 0.150
+
       GBR_2:
         techs:
           import_electricity:
-            flow_cap_max: 0.0419   # FRA(25%)
-            flow_cap_min: 0.0419
+            flow_cap_max: 0.010   # FRA(25%)
+            flow_cap_min: 0.010
           export_electricity:
-            flow_cap_max: 0.0419
-            flow_cap_min: 0.0419
+            flow_cap_max: 0.010
+            flow_cap_min: 0.010
+
       GBR_3:
         techs:
           import_electricity:
-            flow_cap_max: 0.4437   # IRL(1/3) + DNK
-            flow_cap_min: 0.4437
+            flow_cap_max: 0.0483  # IRL(1/3) + DNK
+            flow_cap_min: 0.0483
           export_electricity:
-            flow_cap_max: 0.4437
-            flow_cap_min: 0.4437
+            flow_cap_max: 0.0483
+            flow_cap_min: 0.0483
+
       GBR_4:
         techs:
           import_electricity:
-            flow_cap_max: 0.3883   # IRL(1/3) + NOR
-            flow_cap_min: 0.3883
+            flow_cap_max: 0.0733  # IRL(1/3) + NOR
+            flow_cap_min: 0.0733
           export_electricity:
-            flow_cap_max: 0.3883
-            flow_cap_min: 0.3883
+            flow_cap_max: 0.0733
+            flow_cap_min: 0.0733
+
       GBR_5:
         techs:
           import_electricity:
-            flow_cap_max: 0.0      # No direct links assigned
-            flow_cap_min: 0.0
+            flow_cap_max: 0.000   # No direct links assigned
+            flow_cap_min: 0.000
           export_electricity:
-            flow_cap_max: 0.0
-            flow_cap_min: 0.0
+            flow_cap_max: 0.000
+            flow_cap_min: 0.000
+
       GBR_6:
         techs:
           import_electricity:
-            flow_cap_max: 0.3226   # IRL(1/3)
-            flow_cap_min: 0.3226
+            flow_cap_max: 0.0133  # IRL(1/3)
+            flow_cap_min: 0.0133
           export_electricity:
-            flow_cap_max: 0.3226
-            flow_cap_min: 0.3226
-
+            flow_cap_max: 0.0133
+            flow_cap_min: 0.0133
 
   penalty_factors:
     data_tables:
-      penalties:
-        data: ../../data/outputs/penalty_factors_computed.csv
+      penalties_techs:
+        data: ../../data/outputs/penalty_costs_techs.csv
         rows: [techs, nodes]
         columns: scenario
         add_dims:
@@ -87,8 +91,15 @@ overrides:
           parameters: cost_flow_cap
         drop: [scenario]
 
-  # TODO: update weights between penalty and monetary costs.
-  # Values here are dummy values
+      penalties_links:
+        data: ../../data/outputs/penalty_costs_links.csv
+        rows: [techs]    # ✅ links have no node dimension
+        columns: scenario
+        add_dims:
+          costs: penalty
+          parameters: cost_flow_cap
+        drop: [scenario]
+
     parameters:
       objective_cost_weights:
         data: [1, 1]
@@ -96,11 +107,16 @@ overrides:
         dims: costs
 
   select_low:
-    data_tables.penalties.select.scenario: low
+    data_tables.penalties_techs.select.scenario: low
+    data_tables.penalties_links.select.scenario: low
+
   select_medium:
-    data_tables.penalties.select.scenario: medium
+    data_tables.penalties_techs.select.scenario: medium
+    data_tables.penalties_links.select.scenario: medium
+
   select_high:
-    data_tables.penalties.select.scenario: high
+    data_tables.penalties_techs.select.scenario: high
+    data_tables.penalties_links.select.scenario: high
 
   only_gbr:
     nodes:
