@@ -4,6 +4,29 @@ scenarios:
   high: [only_gbr, penalty_factors, select_high]
 
 overrides:
+  spores:
+    config.init:
+      broadcast_param_data: true
+    config.build:
+      mode: spores
+      backend: pyomo
+    config.solve:
+      solver: gurobi
+      spores:
+        # uncomment if using the "spores_tracker" below
+        tracking_parameter: spores_tracker
+        number: 10  # update to get more results
+        scoring_algorithm: "evolving_average" # this is the default. You may find that the "evolving_average" algorithm gives more interesting results
+    parameters:
+      # i.e. 10% above the cost optimal (including monetary and penalty costs)
+      # Can be updated as you like.
+      spores_slack: 0.15
+      # uncomment the following and add technologies by name into "index" if you want them to be the only ones impacted by the SPORES scoring
+      spores_tracker:
+        data: true
+        index: [open_field_pv, pv_on_roof, wind_onshore_competing, wind_onshore_monopoly, wind_offshore, nuclear, electrified_biofuel, battery, hydrogen, 'link_GBR_1_GBR_2_ac_ohl', 'link_GBR_1_GBR_3_ac_ohl', 'link_GBR_2_GBR_3_ac_ohl', 'link_GBR_3_GBR_4_ac_ohl', 'link_GBR_3_GBR_5_dc_subsea', 'link_GBR_4_GBR_5_ac_ohl', 'link_GBR_4_GBR_5_dc_subsea', 'link_GBR_4_GBR_6_dc_subsea']
+        dims: techs
+
   add_uk_import_export:
     parameters:
       import_limit: "net_exporter" # or "max_share", see additional-math.yaml
