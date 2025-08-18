@@ -28,9 +28,19 @@ rule run_gbr_model:
         model_yaml = "models/ehighways/model.yaml"
     output:
         nc_file = "results/model_gbr_only.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario only_gbr --save_netcdf {output.nc_file}"
+
+rule run_gbr_model_with_spores:
+    message: "Run Calliope model using GBR-only scenario."
+    input:
+        model_yaml = "models/ehighways/model.yaml"
+    output:
+        nc_file = "results/model_gbr_only_spores.nc"
+    conda: "envs/calliope.yaml"
+    shell:
+        "calliope run {input.model_yaml} --scenario only_gbr,spores --save_netcdf {output.nc_file}"
 
 rule run_gbr_model_with_penalty:
     message: "Run GBR model with penalty factors ({wildcards.penalty_scenario})."
@@ -39,7 +49,7 @@ rule run_gbr_model_with_penalty:
         penalty_csv = "data/outputs/penalty_factors_computed.csv"
     output:
         nc_file = "results/model_gbr_with_penalty_{penalty_scenario}.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario {wildcards.penalty_scenario} --save_netcdf {output.nc_file}"
 
@@ -51,7 +61,7 @@ rule run_gbr_model_with_imports:
         penalty_links = "data/outputs/penalty_factors_links.csv"
     output:
         nc_file = "results/model_gbr_imports.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario only_gbr,add_uk_import_export,dea_renewable_cost_pv_open_field,dea_renewable_cost_wind_onshore,dea_renewable_cost_wind_offshore --save_netcdf {output.nc_file}"
 
@@ -64,7 +74,7 @@ rule run_gbr_model_with_penalty_and_imports:
         penalty_links = "data/outputs/penalty_factors_links.csv"
     output:
         nc_file = "results/model_gbr_penalty_imports_{scenario}.nc"
-    conda: "environment.yaml"
+    conda: "envs/calliope.yaml"
     shell:
         "calliope run {input.model_yaml} --scenario {wildcards.scenario},add_uk_import_export,dea_renewable_cost_pv_open_field,dea_renewable_cost_wind_onshore,dea_renewable_cost_wind_offshore --save_netcdf {output.nc_file}"
 
